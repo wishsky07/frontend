@@ -1,6 +1,14 @@
 @charset "utf-8";
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+
+:is(a, h1, h2, h3, h4, h5, h6, td, th, li, span, strong, dl, dd, div, section, button, p) {
+    font-family: 'Noto Sans KR', sans-serif !important;
+}
+
+
 .section-wrap {
     position: relative;
     min-height: 500px;
     height: auto;
 }
+
