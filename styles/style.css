@@ -1,0 +1,6 @@
+@charset "utf-8";
+.section-wrap {
+    position: relative;
+    min-height: 500px;
+    height: auto;
+}
