@@ -10,5 +10,15 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 model categories {
-
+num Int @id @default(autoincrement())
+id String
+password String
+}
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String?
+  password  String
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @updatedAt @map(name: "updated_at")
 }

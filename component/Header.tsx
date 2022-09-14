@@ -50,9 +50,11 @@ function Header() {
                                 </li>
                             )}
                             <li className="nav-item">
+                                <Link href="/Signup">
                                 <Button variant="light">
                                     회원가입
                                 </Button>
+                                </Link>
                             </li>
                         </ul>
                     </div>

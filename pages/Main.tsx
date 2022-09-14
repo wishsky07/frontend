@@ -8,7 +8,7 @@ function Main() {
             {status === "authenticated" ? (
             <h1 className="text-center mt-4">welcome</h1>
                 ) : (
-                <h1 className="text-center mt-4">login hear</h1>
+                <h1 className="text-center mt-4">login here</h1>
                 )}
         </Container>
     )
