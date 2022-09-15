@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, {useState, useRef, useCallback} from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import Layout from "../component/Layout";
@@ -12,9 +12,10 @@ async function createUser(
     email: string,
     password: string
 ): Promise<any> {
+
     const response = await fetch("/api/auth/signup", {
         method: "POST",
-        body: JSON.stringify({ name, email, password }),
+        body: JSON.stringify({ name: name, email:email, password:password}),
         headers: {
             "Content-Type": "application/json",
         },
@@ -23,7 +24,7 @@ async function createUser(
     const data = await response.json();
 
     if (!response.ok) {
-        throw new Error(data.message || "Something went wrong!");
+        throw new Error(data.message || "문제가 발생하였습니다");
     }
 
     return data;
@@ -31,14 +32,28 @@ async function createUser(
 
 
 
+function Signup() {
 
-const Signup: React.FC = (props) => {
+    const [formStatus, setFormStatus] = useState<string | null>(null);
+    const [email, setEmail] = useState<string>('');
 
-    const [formStatus, setFormStatus] = useState<string>();
+    const onEmailChange = useCallback((_text: string) => {
+        setEmail(_text.trim());
+    }, []);
 
-    const nameInputRef = useRef<HTMLInputElement>(null);
-    const emailInputRef = useRef<HTMLInputElement>(null);
-    const passwordInputRef = useRef<HTMLInputElement>(null);
+    const [name, setName] = useState<string>('');
+
+    const onNameChange = useCallback((_text: string) => {
+        setName(_text.trim());
+    }, []);
+
+    const [password, setPassword] = useState<string>('');
+
+    const onPasswordChange = useCallback((_text: string) => {
+        setPassword(_text.trim());
+    }, []);
+
+
 
     const { status } = useSession();
     const router = useRouter();
@@ -46,29 +61,20 @@ const Signup: React.FC = (props) => {
     async function submitHandler(event: React.SyntheticEvent) {
         event.preventDefault();
 
-        const enteredName = nameInputRef.current?.value;
-        const enteredEmail = emailInputRef.current?.value;
-        const enteredPassword = passwordInputRef.current?.value;
 
-        // optional: Add validation
 
         try {
-            const result = await createUser(
-                // @ts-ignore
-                enteredName,
-                enteredEmail,
-                enteredPassword
-            );
+            const result = await createUser(name,email,password)
             console.log(result);
             setFormStatus(`회원가입 성공: ${result.message}`);
-             window.location.href = "/";
-             await router.replace("/login");
+            //window.location.href = "/";
+            await router.replace("/api/auth/signin");
         } catch (error) {
             console.log(error);
             // @ts-ignore
             setFormStatus(`에러입니다: ${error.message}`);
         }
-    } // end of submitHandler function
+    }
 
     if (status === "authenticated") {
         router.replace("/");
@@ -93,8 +99,9 @@ const Signup: React.FC = (props) => {
                             placeholder="이메일을 입력하세요"
                             className="w-100 mb-4"
                             type="email"
+                            value={email}
+                            onChange={(e) => onEmailChange(e.currentTarget.value)}
                             required
-                            ref={nameInputRef}
                         />
                         <TextField
                             id="name"
@@ -104,7 +111,8 @@ const Signup: React.FC = (props) => {
                             className="w-100 mb-4"
                             type="text"
                             required
-                            ref={emailInputRef}
+                            value={name}
+                            onChange={(e) => onNameChange(e.currentTarget.value)}
                         />
                         <TextField
                             id="password"
@@ -114,7 +122,8 @@ const Signup: React.FC = (props) => {
                             className="w-100 mb-5"
                             type="password"
                             required
-                            ref={passwordInputRef}
+                            value={password}
+                            onChange={(e) => onPasswordChange(e.currentTarget.value)}
                         />
                         <p className="text-center fs-5 fw-bold text-danger">
                             {formStatus}

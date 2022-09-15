@@ -4,7 +4,6 @@ import { hashPassword } from '../../../lib/auth';
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
 
-    // Loading prisma client
     let prisma = new PrismaClient();
 
     if (req.method !== 'POST') {
@@ -32,7 +31,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
     const existingUser = await prisma.user.findUnique({
             where: {
-                // @ts-ignore
                 email: email,
             },
             select: {
