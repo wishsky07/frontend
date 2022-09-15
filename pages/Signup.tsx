@@ -5,7 +5,6 @@ import Layout from "../component/Layout";
 import {Container} from "react-bootstrap";
 
 import {Button, TextField} from "@mui/material";
-import {string} from "prop-types";
 
 
 async function createUser(
@@ -35,8 +34,7 @@ async function createUser(
 
 const Signup: React.FC = (props) => {
 
-    // @ts-ignore
-    const [formStatus, setFormStatus] = useState<string>(null);
+    const [formStatus, setFormStatus] = useState<string>();
 
     const nameInputRef = useRef<HTMLInputElement>(null);
     const emailInputRef = useRef<HTMLInputElement>(null);
@@ -62,26 +60,26 @@ const Signup: React.FC = (props) => {
                 enteredPassword
             );
             console.log(result);
-            setFormStatus(`Sign up Success: ${result.message}`);
-             //window.location.href = "/";
-             //await router.replace("/login");
+            setFormStatus(`회원가입 성공: ${result.message}`);
+             window.location.href = "/";
+             await router.replace("/login");
         } catch (error) {
             console.log(error);
             // @ts-ignore
-            setFormStatus(`Error Occured: ${error.message}`);
+            setFormStatus(`에러입니다: ${error.message}`);
         }
-
+    } // end of submitHandler function
 
     if (status === "authenticated") {
-       // await router.replace("/");
+        router.replace("/");
         return (
-            <Layout>
-                <h1>환영합니다.</h1>
-                <p>로그인 되었습니다 메인페이지로 이동합니다.</p>
-            </Layout>
+            <div>
+                <h1>Sign Up</h1>
+                <div>You are already signed up.</div>
+                <div>Now redirect to main page.</div>
+            </div>
         );
     }
-}// end of submitHandler function
     return (
         <Layout>
             <Container>

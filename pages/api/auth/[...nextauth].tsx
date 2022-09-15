@@ -1,5 +1,9 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { PrismaClient } from "@prisma/client";
+import { verifyPassword } from "../../../lib/auth";
+
+let prisma = new PrismaClient();
 
 export default NextAuth({
     providers: [
@@ -14,20 +18,32 @@ export default NextAuth({
                 email: { label: "유저 이메일", type: "email", placeholder: "user@email.com" },
                 password: { label: "패스워드", type: "password" }
             },
-            async authorize(credentials, req) {
-                // Add logic here to look up the user from the credentials supplied
+            async authorize(credentials) {
 
-                if (
-                    // @ts-ignore
-                    credentials.email === "testuser@email.com" &&
-                    // @ts-ignore
-                    credentials.password === "test"
-                ) {
-                    const user = { id: 1, name: "test user", email: "testuser@email.com" }
-                    return user;
+                const user = await prisma.user.findUnique({
+                    where: {
+                        // @ts-ignore
+                        email: String(credentials.email),
+                    },
+                    select: {
+                        name: true, email: true, password: true
+                    },
+                });
+
+                if (!user) {
+                    throw new Error('No user found!');
                 }
 
-                return null
+                const isValid = await verifyPassword(
+                    // @ts-ignore
+                    credentials.password,
+                    user.password
+                );
+
+                if (!isValid) {
+                    throw new Error('Could not log you in!');
+                }
+                return { name: user.name, email: user.email };
             }
         })
     ],

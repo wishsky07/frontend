@@ -3,5 +3,6 @@
   <component name="SqlDialectMappings">
     <file url="file://$PROJECT_DIR$/prisma/migrations/20220914071627_create_categories/migration.sql" dialect="MariaDB" />
     <file url="file://$PROJECT_DIR$/prisma/migrations/20220914071840_create_user/migration.sql" dialect="MariaDB" />
+    <file url="file://$PROJECT_DIR$/prisma/migrations/20220915052858_/migration.sql" dialect="MariaDB" />
   </component>
 </project>
