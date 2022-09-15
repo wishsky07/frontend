@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { PrismaClient } from '@prisma/client';
+import {hashPassword} from "../../../lib/auth";
 
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {

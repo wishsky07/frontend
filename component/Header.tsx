@@ -12,7 +12,7 @@ function Header() {
                     <span className="navbar-brand">
                         <Link href="/">
                                 <a className="text-decoration-none text-white">
-                                Frontend
+                               꾹꾹이
                                 </a>
                             </Link>
                     </span>

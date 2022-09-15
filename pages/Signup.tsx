@@ -5,6 +5,7 @@ import Layout from "../component/Layout";
 import {Container} from "react-bootstrap";
 
 import {Button, TextField} from "@mui/material";
+import {string} from "prop-types";
 
 
 async function createUser(
@@ -32,7 +33,8 @@ async function createUser(
 
 
 
-const Signup: (props: any) => Promise<JSX.Element> = async (props) => {
+const Signup: React.FC = (props) => {
+
     // @ts-ignore
     const [formStatus, setFormStatus] = useState<string>(null);
 
@@ -40,7 +42,7 @@ const Signup: (props: any) => Promise<JSX.Element> = async (props) => {
     const emailInputRef = useRef<HTMLInputElement>(null);
     const passwordInputRef = useRef<HTMLInputElement>(null);
 
-    const {status} = useSession();
+    const { status } = useSession();
     const router = useRouter();
 
     async function submitHandler(event: React.SyntheticEvent) {
@@ -50,8 +52,9 @@ const Signup: (props: any) => Promise<JSX.Element> = async (props) => {
         const enteredEmail = emailInputRef.current?.value;
         const enteredPassword = passwordInputRef.current?.value;
 
-        try {
+        // optional: Add validation
 
+        try {
             const result = await createUser(
                 // @ts-ignore
                 enteredName,
@@ -59,15 +62,18 @@ const Signup: (props: any) => Promise<JSX.Element> = async (props) => {
                 enteredPassword
             );
             console.log(result);
-            setFormStatus(`회원가입이 성공하였습니다: ${result.message}`);
+            setFormStatus(`Sign up Success: ${result.message}`);
+             //window.location.href = "/";
+             //await router.replace("/login");
         } catch (error) {
             console.log(error);
-            setFormStatus(`회원가입이 실패하였습니다: ${error.message}`);
+            // @ts-ignore
+            setFormStatus(`Error Occured: ${error.message}`);
         }
-    }
+
 
     if (status === "authenticated") {
-        await router.replace("/");
+       // await router.replace("/");
         return (
             <Layout>
                 <h1>환영합니다.</h1>
@@ -75,7 +81,7 @@ const Signup: (props: any) => Promise<JSX.Element> = async (props) => {
             </Layout>
         );
     }
-
+}// end of submitHandler function
     return (
         <Layout>
             <Container>
