@@ -18,7 +18,7 @@ export default NextAuth({
                 email: { label: "유저 이메일", type: "email", placeholder: "user@email.com" },
                 password: { label: "패스워드", type: "password", placeholder: "비밀번호를 입력하세요" }
             },
-            async authorize(credentials) {
+            async authorize(credentials, req) {
 
                 const user = await prisma.user.findUnique({
                     where: {
@@ -26,7 +26,7 @@ export default NextAuth({
                         email: String(credentials.email),
                     },
                     select: {
-                        name: true, email: true, password: true
+                        name: true, email: true, password: true, nickname:true
                     },
                 });
 
@@ -43,9 +43,12 @@ export default NextAuth({
                 if (!isValid) {
                     throw new Error('Could not log you in!');
                 }
-                return { name: user.name, email: user.email };
+                return { name: user.name, email: user.email, nickname: user.nickname };
             }
         })
     ],
+    pages: {
+      signIn: "/Login",
+    },
     secret: process.env.SECRET,
 })

@@ -5,17 +5,19 @@ import Layout from "../component/Layout";
 import {Container} from "react-bootstrap";
 
 import {Button, TextField} from "@mui/material";
+import Link from "next/link";
 
 
 async function createUser(
     name: string,
+    nickname: string,
     email: string,
     password: string
 ): Promise<any> {
 
     const response = await fetch("/api/auth/signup", {
         method: "POST",
-        body: JSON.stringify({ name: name, email:email, password:password}),
+        body: JSON.stringify({ name: name, nickname:nickname, email:email, password:password}),
         headers: {
             "Content-Type": "application/json",
         },
@@ -53,6 +55,12 @@ function Signup() {
         setPassword(_text.trim());
     }, []);
 
+    const [nickname, setNickname] = useState<string>('');
+
+    const onNicknameChange = useCallback((_text: string) => {
+        setNickname(_text.trim());
+    }, []);
+
 
 
     const { status } = useSession();
@@ -64,7 +72,7 @@ function Signup() {
 
 
         try {
-            const result = await createUser(name,email,password)
+            const result = await createUser(name,nickname,email,password,)
             console.log(result);
             setFormStatus(`회원가입 성공: ${result.message}`);
             //window.location.href = "/";
@@ -76,20 +84,11 @@ function Signup() {
         }
     }
 
-    if (status === "authenticated") {
-        router.replace("/");
-        return (
-            <div>
-                <h1>Sign Up</h1>
-                <div>You are already signed up.</div>
-                <div>Now redirect to main page.</div>
-            </div>
-        );
-    }
+
     return (
         <Layout>
             <Container>
-                <h1 className="text-center mt-5 fw-bold">회원가입</h1>
+                <h1 className="text-center  fw-bold">회원가입</h1>
                 <form onSubmit={submitHandler}>
                     <div className="input-box me-auto ms-auto w-50 pt-4">
                         <TextField
@@ -115,7 +114,18 @@ function Signup() {
                             onChange={(e) => onNameChange(e.currentTarget.value)}
                         />
                         <TextField
-                            id="password"
+                            id="nickname"
+                            label="닉네임"
+                            variant="filled"
+                            placeholder="닉네임을 입력하세요"
+                            className="w-100 mb-4"
+                            type="text"
+                            required
+                            value={nickname}
+                            onChange={(e) => onNicknameChange(e.currentTarget.value)}
+                        />
+                        <TextField
+                            id="current-password"
                             label="비밀번호"
                             variant="filled"
                             placeholder="비밀번호를 입력하세요"

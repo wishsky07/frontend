@@ -3,6 +3,7 @@ import {Button} from "react-bootstrap";
 import {useSession, signOut} from "next-auth/react";
 
 
+
 function Header() {
     const {data: session, status} = useSession();
     return(
@@ -36,26 +37,31 @@ function Header() {
                         <ul className="navbar-nav justify-content-end">
                             {status === "authenticated" ? (
                             <li className="nav-item me-3">
+                                {session && (
+                                <span className="text-white fs-5 me-4 position-relative user-session">{session.user.nickname}님 로그인중</span>
+                                )}
                                 <Button variant="light" onClick={() => signOut()}>
                                     로그아웃
                                 </Button>
                             </li>
                             ) : (
+                                <>
                                 <li className="nav-item me-3">
-                                    <Link href="/api/auth/signin">
+                                    <Link href="/Login">
                                     <Button variant="light">
                                         로그인
                                     </Button>
                                     </Link>
                                 </li>
-                            )}
-                            <li className="nav-item">
+                                <li className="nav-item">
                                 <Link href="/Signup">
                                 <Button variant="light">
-                                    회원가입
+                                회원가입
                                 </Button>
                                 </Link>
-                            </li>
+                                </li>
+                                </>
+                            )}
                         </ul>
                     </div>
                 </div>

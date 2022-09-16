@@ -10,5 +10,20 @@
     position: relative;
     min-height: 500px;
     height: auto;
+    padding-top:3rem;
+    padding-bottom:3rem;
+}
+
+.user-session {top:4px;}
+
+.naver-button {
+    background-color: #19ce60 !important;
+}
+.kakao-button {
+    background-color: #fae100 !important;
+}
+.google-button {
+    background-color: #fff !important;
+    color:#333 !important;
 }
 

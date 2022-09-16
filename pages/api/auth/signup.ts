@@ -12,10 +12,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
     const data = req.body;
 
-    const { name, email, password } = data;
+    const { name, nickname, email, password } = data;
 
     if (
         !name ||
+        !nickname ||
         !email ||
         !email.includes('@') ||
         !password ||
@@ -34,7 +35,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
                 email: email,
             },
             select: {
-                email: true, name: true,
+                email: true, name: true, nickname: true,
             }
         }
     );
@@ -49,6 +50,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     const result = await prisma.user.create({
         data: {
             name: name,
+            nickname: nickname,
             email: email,
             password: hashedPassword,
         },
