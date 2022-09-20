@@ -25,6 +25,7 @@ model User {
   role          Role      @default(USER)
   accounts      Account[]
   sessions      Session[]
+  posts         Index[]
   createdAt DateTime @default(now()) @map(name: "created_at")
   updatedAt DateTime @updatedAt @map(name: "updated_at")
   @@map("users")
@@ -62,14 +63,23 @@ id                 String  @id @default(cuid())
 }
 
 
-
-
-
-
 model VerificationToken {
   identifier String
   token      String   @unique
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Write {
+  id        Int      @id @default(autoincrement())
+  title     String   @db.VarChar(255)
+  content   String?
+    userId    String
+    author    User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+    authorId  Int?
+    published Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
 }

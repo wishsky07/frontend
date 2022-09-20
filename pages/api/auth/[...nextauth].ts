@@ -84,9 +84,9 @@ export default NextAuth({
             return session;
         },
     },
-    pages: {
-        signIn: "/Login",
-    },
+   // pages: {
+     //   signIn: "/user/login",
+  //  },
     secret: process.env.SECRET,
 
 })

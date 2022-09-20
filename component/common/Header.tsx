@@ -26,13 +26,15 @@ function Header() {
                     <div className="collapse navbar-collapse ms-5" id="navbarSupportedContent">
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                             <li className="nav-item me-4">
-                                <a className="nav-link active text-white" aria-current="page" href="#">Home</a>
+                                <Link href={'/post/write'}>
+                                <a className="nav-link active text-white">글쓰기</a>
+                                </Link>
                             </li>
                             <li className="nav-item me-4">
-                                <a className="nav-link text-white" href="#">Link</a>
+                                <a className="nav-link text-white" href="component/common/Header#">Link</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link text-white" href="#">Disabled</a>
+                                <a className="nav-link text-white" href="component/common/Header#">Disabled</a>
                             </li>
                         </ul>
                         <ul className="navbar-nav justify-content-end">
@@ -48,14 +50,14 @@ function Header() {
                             ) : (
                                 <>
                                 <li className="nav-item me-3">
-                                    <Link href="/Login">
+                                    <Link href={'/user/login'}>
                                     <Button variant="light">
                                         로그인
                                     </Button>
                                     </Link>
                                 </li>
                                 <li className="nav-item">
-                                <Link href="/Signup">
+                                    <Link href={'/user/signup'}>
                                 <Button variant="light">
                                 회원가입
                                 </Button>

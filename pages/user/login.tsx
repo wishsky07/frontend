@@ -3,7 +3,7 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import { useRouter } from "next/router";
 import {Col, Container, Row} from "react-bootstrap";
 import {Button, TextField} from "@mui/material";
-import Layout from "../component/Layout";
+import Layout from "../../component/common/Layout";
 
 
 

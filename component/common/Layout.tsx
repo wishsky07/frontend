@@ -1,7 +1,9 @@
-import TopHead from "./TopHead";
-import Header from "./Header";
-import Footer from "./Footer";
+
 import {PropsWithChildren} from "react";
+import TopHead from "../common/TopHead";
+import Header from "../common/Header";
+import Footer from "../common/Footer";
+
 
 function Layout({children} : PropsWithChildren) {
     return(

@@ -1,7 +1,7 @@
 import React, {useState, useRef, useCallback} from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import Layout from "../component/Layout";
+import Layout from "../../component/common/Layout";
 import {Container} from "react-bootstrap";
 
 import {Button, TextField} from "@mui/material";

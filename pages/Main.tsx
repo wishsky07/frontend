@@ -8,7 +8,7 @@ function Main() {
             {status === "authenticated" ? (
             <h1 className="text-center mt-4">welcome</h1>
                 ) : (
-                <h1 className="text-center mt-4">login here</h1>
+                <h1 className="text-center mt-4">꾹꾹이입니다. 로그인하세요</h1>
                 )}
         </Container>
     )
