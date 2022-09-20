@@ -6,6 +6,7 @@ import {useSession, signOut} from "next-auth/react";
 
 function Header() {
     const {data: session, status} = useSession();
+
     return(
         <header>
             <nav className="navbar navbar-expand-lg bg-dark pt-3 pb-3">
@@ -38,7 +39,7 @@ function Header() {
                             {status === "authenticated" ? (
                             <li className="nav-item me-3">
                                 {session && (
-                                <span className="text-white fs-5 me-4 position-relative user-session">{session.user.nickname}님 로그인중</span>
+                                <span className="text-white fs-5 me-4 position-relative user-session">{session.user?.email}님 로그인중</span>
                                 )}
                                 <Button variant="light" onClick={() => signOut()}>
                                     로그아웃

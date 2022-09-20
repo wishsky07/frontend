@@ -47,17 +47,22 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
     const hashedPassword = await hashPassword(password);
 
-    const result = await prisma.user.create({
+    const result = await prisma.user.createMany({
         data: {
             name: name,
             nickname: nickname,
             email: email,
             password: hashedPassword,
+
         },
+
+
     });
+
 
     if (result) {
         res.status(201).json({ message: '계정등록이 완료되었습니다', error: false });
+
     } else {
         res.status(422).json({ message: 'Prisma 오류', error: true })
     }

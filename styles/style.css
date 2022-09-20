@@ -14,7 +14,7 @@
     padding-bottom:3rem;
 }
 
-.user-session {top:4px;}
+.user-session {top:4px; right:4px;}
 
 .naver-button {
     background-color: #19ce60 !important;
@@ -25,5 +25,12 @@
 .google-button {
     background-color: #fff !important;
     color:#333 !important;
+}
+.wrap {
+    position: relative;
+    width:100%;
+    max-width:1200px;
+    min-width:280px;
+    margin:0 auto;
 }
 

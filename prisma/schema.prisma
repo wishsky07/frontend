@@ -9,17 +9,67 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
-model categories {
-num Int @id @default(autoincrement())
-id String
-password String
+enum Role {
+  USER
+  OWNER
+  ADMIN
 }
 model User {
-id Int @id @default(autoincrement())
-email String @unique
-name String?
-nickname String?
-password String
-createdAt DateTime @default(now()) @map(name: "created_at")
-updatedAt DateTime @updatedAt @map(name: "updated_at")
+   id                 String  @id @default(cuid())
+  name          String?
+  nickname          String?
+  password       String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  role          Role      @default(USER)
+  accounts      Account[]
+  sessions      Session[]
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @updatedAt @map(name: "updated_at")
+  @@map("users")
+}
+
+
+model Account {
+  id                       String  @id @default(cuid())
+  type                     String
+  provider                 String
+  providerAccountId        String
+  userId                   String
+  user                     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  refresh_token            String?
+  refresh_token_expires_in Int?
+  access_token             String?
+  expires_in               Int?
+  expires_at               Int?
+  token_type               String?
+  scope                    String?
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @updatedAt @map(name: "updated_at")
+  @@unique([provider, providerAccountId])
+}
+
+
+
+
+model Session {
+id                 String  @id @default(cuid())
+  sessionToken String   @unique
+  expires      DateTime
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+
+
+
+
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
 }

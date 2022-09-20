@@ -1,9 +1,10 @@
 import React, {useCallback, useState} from "react";
-import { useSession, signIn } from "next-auth/react";
+import { useSession, signIn, signOut } from "next-auth/react";
 import { useRouter } from "next/router";
 import {Col, Container, Row} from "react-bootstrap";
 import {Button, TextField} from "@mui/material";
 import Layout from "../component/Layout";
+
 
 
 
@@ -34,6 +35,8 @@ function Login() {
             password: password,
         });
 
+
+
         // @ts-ignore
         if (!result.error) {
             setFormStatus(`로그인 성공`);
@@ -44,7 +47,9 @@ function Login() {
         }
     } // end of submitHandler function
 
+
     const { data: session, status } = useSession();
+
     const router = useRouter();
 
 
@@ -90,24 +95,24 @@ function Login() {
                             </Button>
                         </div>
                     </div>
+                    <Row className="mt-5 row-cols-auto justify-content-center">
+                        <Col className="text-center">
+                            <Button variant="contained" className="w-100 p-2 fs-5 naver-button">
+                                네이버 로그인
+                            </Button>
+                        </Col>
+                        <Col className="text-center">
+                            <Button variant="contained" className="w-100 p-2 fs-5 kakao-button" onClick={() => signIn('kakao')}>
+                                카카오 로그인
+                            </Button>
+                        </Col>
+                        <Col className="text-center">
+                            <Button variant="contained" className="w-100 p-2 fs-5 google-button">
+                                구글 로그인
+                            </Button>
+                        </Col>
+                    </Row>
                 </form>
-                <Row className="mt-5 row-cols-auto justify-content-center">
-                    <Col className="text-center">
-                        <Button variant="contained" className="w-100 p-2 fs-5 naver-button">
-                            네이버 로그인
-                        </Button>
-                    </Col>
-                    <Col className="text-center">
-                        <Button variant="contained" className="w-100 p-2 fs-5 kakao-button">
-                            카카오 로그인
-                        </Button>
-                    </Col>
-                    <Col className="text-center">
-                        <Button variant="contained" className="w-100 p-2 fs-5 google-button">
-                            구글 로그인
-                        </Button>
-                    </Col>
-                </Row>
             </Container>
         </Layout>
     )

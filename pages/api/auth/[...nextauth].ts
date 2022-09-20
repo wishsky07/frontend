@@ -1,11 +1,21 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { PrismaClient } from "@prisma/client";
+import KakaoProvider from "next-auth/providers/kakao";
 import { verifyPassword } from "../../../lib/auth";
+import { PrismaAdapter } from '@next-auth/prisma-adapter';
+import {prisma} from "../../../lib/prisma"
 
-let prisma = new PrismaClient();
+
+
+
+
+
+
 
 export default NextAuth({
+
+    adapter: PrismaAdapter(prisma),
+
     providers: [
         CredentialsProvider({
             // The name to display on the sign in form (e.g. "Sign in with...")
@@ -22,8 +32,7 @@ export default NextAuth({
 
                 const user = await prisma.user.findUnique({
                     where: {
-                        // @ts-ignore
-                        email: String(credentials.email),
+                        email: String(credentials!.email),
                     },
                     select: {
                         name: true, email: true, password: true, nickname:true
@@ -35,8 +44,8 @@ export default NextAuth({
                 }
 
                 const isValid = await verifyPassword(
-                    // @ts-ignore
-                    credentials.password,
+
+                    credentials!.password,
                     user.password
                 );
 
@@ -45,10 +54,39 @@ export default NextAuth({
                 }
                 return { name: user.name, email: user.email, nickname: user.nickname };
             }
+        }),
+        KakaoProvider({
+            clientId: process.env.KAKAO_CLIENT_ID!,
+            clientSecret: process.env.KAKAO_CLIENT_SECRET!
         })
     ],
+
+    session: {
+        strategy: 'jwt',
+        maxAge: 30 * 24 * 60 * 60, // 30 days
+        updateAge: 24 * 60 * 60, // 24 hours
+    },
+    jwt: {
+        secret: "secret",
+    },
+    callbacks: {
+        async jwt({ token, user, account}) {
+            if (user) {
+                token.role = user.role;
+            }
+            if(account) {
+                token.role = account.role;
+            }
+            return token;
+        },
+        async session({ session, token }) {
+            session.role = token.role;
+            return session;
+        },
+    },
     pages: {
-      signIn: "/Login",
+        signIn: "/Login",
     },
     secret: process.env.SECRET,
+
 })

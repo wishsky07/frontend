@@ -75,12 +75,12 @@ function Signup() {
             const result = await createUser(name,nickname,email,password,)
             console.log(result);
             setFormStatus(`회원가입 성공: ${result.message}`);
-            //window.location.href = "/";
-            await router.replace("/api/auth/signin");
+            window.location.href = "/";
+            await router.replace("/api/auth/signup");
         } catch (error) {
             console.log(error);
             // @ts-ignore
-            setFormStatus(`에러입니다: ${error.message}`);
+            setFormStatus(`에러입니다: ${error!.message}`);
         }
     }
 
