@@ -43,9 +43,11 @@ export default NextAuth({
                     throw new Error('No user found!');
                 }
 
+
                 const isValid = await verifyPassword(
 
                     credentials!.password,
+                    // @ts-ignore
                     user.password
                 );
 
@@ -84,9 +86,9 @@ export default NextAuth({
             return session;
         },
     },
-   // pages: {
-     //   signIn: "/user/login",
-  //  },
+    pages: {
+        signIn: "/user/login",
+    },
     secret: process.env.SECRET,
 
 })

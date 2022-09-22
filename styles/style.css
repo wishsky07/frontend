@@ -34,3 +34,7 @@
     margin:0 auto;
 }
 
+.resize-textarea {
+    height: 400px !important;
+    resize: none;
+}
