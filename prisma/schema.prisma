@@ -25,7 +25,7 @@ model User {
   role          Role      @default(USER)
   accounts      Account[]
   sessions      Session[]
-  posts         Index[]
+  posts         Post[]
   createdAt DateTime @default(now()) @map(name: "created_at")
   updatedAt DateTime @updatedAt @map(name: "updated_at")
   @@map("users")
@@ -71,7 +71,7 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-model Write {
+model Post {
   id        Int      @id @default(autoincrement())
   title     String   @db.VarChar(255)
   content   String?
