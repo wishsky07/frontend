@@ -2,13 +2,15 @@ import React from "react";
 import { GetServerSideProps } from "next";
 import Post, { PostProps } from "../../component/Post/Post";
 import { useSession, getSession } from "next-auth/react";
-import {PrismaClient} from "@prisma/client";
 import {Container} from "react-bootstrap";
+import Layout from "../../component/common/Layout";
+import {ListItem} from "@mui/material";
+import {prisma} from "../../lib/prisma"
 
 
-let prisma = new PrismaClient();
 
-export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+
+ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
     const session = await getSession({ req });
     if (!session) {
         res.statusCode = 403;
@@ -26,33 +28,43 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
             },
         },
     });
+
     return {
-        props: { drafts },
+        props: {
+            drafts : JSON.parse(JSON.stringify(drafts))
+        },
     };
 };
 
-type Props = {
+type DraftProps = {
     drafts: PostProps[];
 };
 
-// @ts-ignore
-const Drafts: React.FC<Props> = (props) => {
-    // @ts-ignore
-    const [session] = useSession();
+
+function Drafts({drafts} : DraftProps) {
+
+    const {data: session, status } = useSession();
 
     if (!session) {
         return (
+            <Layout>
                 <Container>
-                    <h1 className="text-center fw-bold">미발행 Post 모음</h1>
-                    <p className="text-center fs-5">미발행 Post를 보시려면 로그인이 필요합니다.</p>
+                    <h1 className="text-center fw-bold">게시물 리스트</h1>
+                    <p className="text-center fs-5">게시물 리스트를 보시려면 로그인이 필요합니다.</p>
                 </Container>
+            </Layout>
         );
     }
 
 
+
     return (
-                                                  // @ts-ignore
-            <Post post="asd" />
+
+        {props:drafts.map((post) => (
+                <ListItem key={post.id}>
+                    <Post post={post} />
+                </ListItem>
+            ))}
 )
 
 };

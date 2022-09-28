@@ -28,8 +28,9 @@ const ToastEditor = dynamic(
                 body: JSON.stringify(body),
             });
 
-            // @ts-ignore
-            await Router.push("/");
+
+            await router.push("/post/drafts");
+
         } catch (error) {
             console.error(error);
         }
@@ -52,7 +53,12 @@ const ToastEditor = dynamic(
                         placeholder="제목을 입력하세요"
                         onChange={(e) => setTitle(e.target.value)}
                     />
-                    <ToastEditor  />
+
+                    <TextareaAutosize
+                        className="w-100 resize-textarea"
+                        id="content"
+                        onChange={(e) => setContent(e.target.value)}
+                    />
 
                     <Row className="row-cols-auto justify-content-end mt-4">
                         <Col>
@@ -62,6 +68,7 @@ const ToastEditor = dynamic(
                             <Button className="w-100 bg-light shadow-none text-dark border-0" onClick={() => {router.back();}}>취소하기</Button>
                         </Col>
                     </Row>
+
                 </form>
             </Container>
         </Layout>

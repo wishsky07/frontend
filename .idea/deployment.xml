@@ -79,6 +79,13 @@
           </mappings>
         </serverdata>
       </paths>
+      <paths name="더블랙 강남 영문">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
       <paths name="더블랙 대구">
         <serverdata>
           <mappings>

@@ -1,0 +1,17 @@
+@charset "utf-8";
+
+.Wrap {
+    position: relative;
+    width:100%;
+    max-width:1200px;
+    min-width:280px;
+    margin:0 auto;
+}
+.ContainerWp {
+    position: relative;
+    min-height: 500px;
+    height: auto;
+    padding-top:3rem;
+    padding-bottom:3rem;
+}
+
